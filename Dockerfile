@@ -123,6 +123,14 @@ RUN sudo -H pip install --upgrade pip && \
     sudo -H pip3 install wheel tox && \
     rm -rf ~/.cache
 
+# Install gcloud
+RUN sudo apt-get update && sudo apt-get install -y lsb-core && sudo apt-get clean
+
+# Install gcloud
+RUN sudo echo "deb http://packages.cloud.google.com/apt cloud-sdk-$(lsb_release -c -s)  main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \ 
+    sudo curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add - && \
+    sudo apt-get update && sudo apt-get install -y google-cloud-sdk && sudo apt-get clean
+
 EXPOSE 8080
 
 WORKDIR /home/airflow
